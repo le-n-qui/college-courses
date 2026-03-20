@@ -15,6 +15,8 @@ fn main() {
         .read_line(&mut response1)
         .expect("Failed to read user response.");
 
+    response1 = response1.trim().to_string();
+
     // Ask for the course department
     println!("2. Course department: ");
 
@@ -25,6 +27,8 @@ fn main() {
     io::stdin()
         .read_line(&mut response2)
         .expect("Failed to read user response.");
+
+    response2 = response2.trim().to_string();
 
     // Ask for the course enrollment capacity
     println!("3. Course enrollment capacity: ");
