@@ -37,6 +37,15 @@ fn main() {
         .read_line(&mut response3)
         .expect("Failed to read user response.");
 
+    // Enrollment capacity is a fixed, constant number
+    let enroll_cap: u16 = match response3.trim().parse() {
+        Ok(num) => num,
+        Err(error) => {
+            println!("Please input a number. Warning: {}", error);
+            return;
+        }
+    };
+
     // Show user responses
-    println!("\nProvided information: {0}, {1}", response1, response2);
+    println!("\nProvided information: {0}, {1}, {2}", response1, response2, enroll_cap);
 }
