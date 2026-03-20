@@ -26,6 +26,17 @@ fn main() {
         .read_line(&mut response2)
         .expect("Failed to read user response.");
 
+    // Ask for the course enrollment capacity
+    println!("3. Course enrollment capacity: ");
+
+    // Create a mutable variable to save user response 3    
+    let mut response3 = String::new();
+
+    // Read user input for question 3
+    io::stdin()
+        .read_line(&mut response3)
+        .expect("Failed to read user response.");
+
     // Show user responses
     println!("\nProvided information: {0}, {1}", response1, response2);
 }
