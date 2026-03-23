@@ -50,6 +50,27 @@ fn main() {
         }
     };
 
+    // Ask for the course total enrollment after enrollment census day
+    println!("4. Course total enrollment: ");
+
+    // Create a mutable variable to save user response 4
+    let mut response4 = String::new();
+
+    // Read in user input for question 4
+    io::stdin()
+        .read_line(&mut response4)
+        .expect("Failed to read user response.");
+
+    // Total enrollment is a fixed number, recorded after enrollment census day
+    let tot_enroll: u16 = match response4.trim().parse() {
+        Ok(num) => num,
+        Err(error) => {
+            println!("Please input a number. Warning: {}", error);
+            return;
+        }
+    };
+                                    
+
     // Show user responses
-    println!("\nProvided information: {0}, {1}, {2}", response1, response2, enroll_cap);
+    println!("\nProvided information: {0}, {1}, {2}, {3}", response1, response2, enroll_cap, tot_enroll);
 }
