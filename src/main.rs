@@ -69,8 +69,30 @@ fn main() {
             return;
         }
     };
-                                    
+
+    // Ask for the semester that the course is taught in
+    println!("5. Semester: ");
+
+    // Create a mutable variable to save user response 5
+    let mut response5 = String::new();
+
+    // Read in user input for question 5
+    io::stdin()
+        .read_line(&mut response5)
+        .expect("Failed to read user response.");
+
+    // Semester is a string
+    let semester: String;
+
+    if response5.starts_with("\n") {
+        semester = String::from("No response");
+        println!("Please provide semester information.");
+    } 
+    else {
+        semester = response5.trim().to_string();
+    }
+    
 
     // Show user responses
-    println!("\nProvided information: {0}, {1}, {2}, {3}", response1, response2, enroll_cap, tot_enroll);
+    println!("\nProvided information: {0}, {1}, {2}, {3}, {4}", response1, response2, enroll_cap, tot_enroll, semester);
 }
