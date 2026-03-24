@@ -81,10 +81,12 @@ fn main() {
         .read_line(&mut response5)
         .expect("Failed to read user response.");
 
+    response5 = response5.trim().to_string();
+
     // Semester is a string
     let semester: String;
 
-    if response5.starts_with("\n") {
+    if response5.is_empty() {
         semester = String::from("No response");
         println!("Please provide semester information.");
     } 
