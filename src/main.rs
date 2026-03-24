@@ -17,6 +17,18 @@ fn main() {
 
     response1 = response1.trim().to_string();
 
+    // Response 1
+    // Request user to enter a string value
+    while response1.is_empty() {
+        println!("Please input the course prefix and number: ");
+        
+        io::stdin()
+            .read_line(&mut response1)
+            .expect("Failed to read user input.");
+
+        response1 = response1.trim().to_string();
+    }
+
     // Ask for the course department
     println!("2. Course department: ");
 
@@ -29,6 +41,18 @@ fn main() {
         .expect("Failed to read user response.");
 
     response2 = response2.trim().to_string();
+
+    // Response 2
+    // Request user to input a string value
+    while response2.is_empty() {
+        println!("Please input the course department");
+
+        io::stdin()
+            .read_line(&mut response2)
+            .expect("Failed to read user input.");
+
+        response2 = response2.trim().to_string();
+    }
 
     // Ask for the course enrollment capacity
     println!("3. Course enrollment capacity: ");
