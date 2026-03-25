@@ -1,4 +1,5 @@
 use std::io;
+use std::num::{IntErrorKind, NonZeroU16};
 
 fn main() {
     // Introduction line
@@ -66,11 +67,26 @@ fn main() {
         .expect("Failed to read user response.");
 
     // Enrollment capacity is a fixed, constant number
-    let enroll_cap: u16 = match response3.trim().parse() {
+    let enroll_cap: NonZeroU16 = match response3.trim().parse() {
         Ok(num) => num,
-        Err(error) => {
-            println!("Please input a number. Warning: {}", error);
-            return;
+        Err(error) => match error.kind() {
+            IntErrorKind::Empty => {
+                println!("No response is inputted."); 
+                return;
+            },
+            IntErrorKind::InvalidDigit => {
+                println!("There are invalid characters in the inputted number.");
+                return;
+            },
+            IntErrorKind::PosOverflow => {
+                println!("Number is too large to be considered.");
+                return;
+            },
+            IntErrorKind::Zero => {
+                println!("Zero cannot be provided.");
+                return;
+            },
+            _ => {println!{"Error is encountered."}; return;}
         }
     };
 
