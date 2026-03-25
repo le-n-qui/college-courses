@@ -1,3 +1,4 @@
+use regex::Regex;
 use std::io;
 use std::num::{IntErrorKind, NonZeroU16};
 
@@ -21,7 +22,7 @@ fn main() {
     // Response 1
     // Request user to enter a string value
     while response1.is_empty() {
-        println!("Please input the course prefix and number: ");
+        println!("Please input the course prefix and number (e.g. BIOL 50): ");
         
         io::stdin()
             .read_line(&mut response1)
@@ -29,6 +30,10 @@ fn main() {
 
         response1 = response1.trim().to_string();
     }
+
+    // Define the regular expresion
+    let reg_ex = Regex::new(r"([[:alpha:]]+)\s*([[:alnum:]]+$)").unwrap();
+    let groups = reg_ex.captures(&response1).unwrap();
 
     // Ask for the course department
     println!("2. Course department: ");
@@ -86,7 +91,10 @@ fn main() {
                 println!("Zero cannot be provided.");
                 return;
             },
-            _ => {println!{"Error is encountered."}; return;}
+            _ => {
+                println!{"Error is encountered."}; 
+                return;
+            }
         }
     };
 
@@ -136,5 +144,11 @@ fn main() {
     
 
     // Show user responses
-    println!("\nProvided information: {0}, {1}, {2}, {3}, {4}", response1, response2, enroll_cap, tot_enroll, semester);
+    println!("\nProvided information: {}, {}, {}, {}, {}, {}", 
+        &groups[1], 
+        &groups[2],
+        response2,
+        enroll_cap,
+        tot_enroll,
+        semester);
 }
