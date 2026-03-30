@@ -138,17 +138,16 @@ fn main() {
 
     response5 = response5.trim().to_string();
 
-    // Semester is a string
-    let semester: String;
+    while response5.is_empty() {
+        println!("Please provide semester in which the course was offered:");
 
-    if response5.is_empty() {
-        semester = String::from("No response");
-        println!("Please provide semester information.");
+        io::stdin()
+            .read_line(&mut response5)
+            .expect("Failed to read user response.");
+
+        response5 = response5.trim().to_string();  
+
     } 
-    else {
-        semester = response5.trim().to_string();
-    }
-    
 
     // Show user responses
     println!("\nProvided information: {}, {}, {}, {}, {}, {}", 
@@ -157,5 +156,8 @@ fn main() {
         response2,
         enroll_cap,
         tot_enroll,
-        semester);
+        response5);
+
+    // Show how data is saved
+    println!("Data: {}, {}, {}, {}, {}, {}", &groups[1], &groups[2], response2, enroll_cap, tot_enroll, response5);
 }
