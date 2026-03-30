@@ -2,12 +2,19 @@ use regex::Regex;
 use std::io;
 use std::num::{IntErrorKind, NonZeroU16};
 
+enum Semester {
+    Winter,
+    Spring,
+    Summer,
+    Fall
+}
+
 fn main() {
     // Introduction line
     println!("Hello, please provide course information below!");
 
     // Ask for the course name
-    println!("1. Course name: ");
+    println!("1. Course name (e.g. BIOL 50): ");
 
     // Create a mutable variable to save user response 1
     let mut response1 = String::new();
