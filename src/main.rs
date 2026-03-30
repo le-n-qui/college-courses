@@ -1,5 +1,7 @@
+use anyhow::{bail, Result};
 use regex::Regex;
 use std::io;
+use std::str::FromStr;
 use std::num::{IntErrorKind, NonZeroU16};
 
 enum Semester {
@@ -7,6 +9,22 @@ enum Semester {
     Spring,
     Summer,
     Fall
+}
+
+impl FromStr for Semester {
+    type Err = anyhow::Error;
+
+    fn from_str(s: &str) -> Result<Self> {
+
+        match s.to_lowercase().as_str() {
+            "wi" | "winter" => Ok(Semester::Winter),
+            "sp" | "spr" | "spring" => Ok(Semester::Spring),
+            "su" | "summer"  => Ok(Semester::Summer),
+            "fa" | "fall"  => Ok(Semester::Fall),
+            _ => bail!("Could not determine semester information with given input: {}.", s)
+        }
+
+    }
 }
 
 fn main() {
