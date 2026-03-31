@@ -27,6 +27,15 @@ impl FromStr for Semester {
     }
 }
 
+fn semester_coding(sem: Semester) -> u8 {
+    match sem {
+        Semester::Winter => 1,
+        Semester::Spring => 2,
+        Semester::Summer => 3,
+        Semester::Fall => 4
+    }
+}
+
 fn main() {
     // Introduction line
     println!("Hello, please provide course information below!");
@@ -167,6 +176,16 @@ fn main() {
 
     } 
 
+    let semester = match response5.parse() {
+        Ok(value) => value,
+        Err(_) => {
+            println!("Provide known values for semester information. Examples are WI (Winter), SP (Spring), SU, (Summer), FA (Fall).");
+            return;
+        }
+    };
+
+    let sem_code = semester_coding(semester);
+
     // Show user responses
     println!("\nProvided information: {}, {}, {}, {}, {}, {}", 
         &groups[1], 
@@ -177,5 +196,5 @@ fn main() {
         response5);
 
     // Show how data is saved
-    println!("Data: {}, {}, {}, {}, {}, {}", &groups[1], &groups[2], response2, enroll_cap, tot_enroll, response5);
+    println!("Data: {}, {}, {}, {}, {}, {}", &groups[1], &groups[2], response2, enroll_cap, tot_enroll, sem_code);
 }
