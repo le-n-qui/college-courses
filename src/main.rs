@@ -2,7 +2,7 @@ use anyhow::{bail, Result};
 use regex::Regex;
 use std::io;
 use std::str::FromStr;
-use std::num::{IntErrorKind, NonZeroU16};
+use std::num::NonZeroU16;
 
 enum Semester {
     Winter,
@@ -36,9 +36,22 @@ fn semester_coding(sem: Semester) -> u8 {
     }
 }
 
+fn number_checking(datapoint: &str) -> i16 {
+    let res = match datapoint.parse::<NonZeroU16>() {
+        Ok(num) => num.get() as i16,
+        Err(_) => -1
+    };
+
+    res
+}
+
 fn main() {
     // Introduction line
     println!("Hello, please provide course information below!");
+
+    /////////////
+    // Question 1
+    /////////////
 
     // Ask for the course name
     println!("1. Course name (e.g. BIOL 50): ");
@@ -69,6 +82,11 @@ fn main() {
     let reg_ex = Regex::new(r"([[:alpha:]]+)\s*([[:alnum:]]+$)").unwrap();
     let groups = reg_ex.captures(&response1).unwrap();
 
+
+    /////////////
+    // Question 2
+    /////////////
+    
     // Ask for the course department
     println!("2. Course department: ");
 
@@ -94,6 +112,11 @@ fn main() {
         response2 = response2.trim().to_string();
     }
 
+
+    /////////////
+    // Question 3
+    /////////////
+
     // Ask for the course enrollment capacity
     println!("3. Course enrollment capacity: ");
 
@@ -106,31 +129,15 @@ fn main() {
         .expect("Failed to read user response.");
 
     // Enrollment capacity is a fixed, constant number
-    let enroll_cap: NonZeroU16 = match response3.trim().parse() {
-        Ok(num) => num,
-        Err(error) => match error.kind() {
-            IntErrorKind::Empty => {
-                println!("No response is inputted."); 
-                return;
-            },
-            IntErrorKind::InvalidDigit => {
-                println!("There are invalid characters in the inputted number.");
-                return;
-            },
-            IntErrorKind::PosOverflow => {
-                println!("Number is too large to be considered.");
-                return;
-            },
-            IntErrorKind::Zero => {
-                println!("Zero cannot be provided.");
-                return;
-            },
-            _ => {
-                println!{"Error is encountered."}; 
-                return;
-            }
-        }
-    };
+    // When -1 is returned, we encounter errors
+    // It indicates that further data checking is 
+    // needed to be done in person
+    let enroll_cap = number_checking(&response3.trim());
+
+
+    /////////////
+    // Question 4
+    /////////////
 
     // Ask for the course total enrollment after enrollment census day
     println!("4. Course total enrollment: ");
@@ -151,6 +158,11 @@ fn main() {
             return;
         }
     };
+
+
+    /////////////
+    // Question 5
+    /////////////
 
     // Ask for the semester that the course is taught in
     println!("5. Semester: ");
@@ -186,15 +198,45 @@ fn main() {
 
     let sem_code = semester_coding(semester);
 
+    /////////////
+    // Question 6
+    /////////////
+
+    // Display question 6, asking for user response
+    println!("6. Year:");
+
+    let mut response6 = String::new();
+
+    // Read in user response
+    io::stdin()
+        .read_line(&mut response6)
+        .expect("Failed to read user response.");
+
+    // Continue to request for response if no response is provided    
+    while response6.trim().is_empty() {
+        println!("Please provide information on the year in which the course was provided.");
+
+        io::stdin()
+            .read_line(&mut response6)
+            .expect("Failed to read user response.");
+    }
+   
+    // When -1 is returned, we encounter errors
+    // It indicates that further data checking is 
+    // needed to be done in person
+    let year = number_checking(&response6.trim());
+
+
     // Show user responses
-    println!("\nProvided information: {}, {}, {}, {}, {}, {}", 
+    println!("\nProvided information: {}, {}, {}, {}, {}, {}, {}", 
         &groups[1], 
         &groups[2],
         response2,
         enroll_cap,
         tot_enroll,
-        response5);
+        response5, 
+        year);
 
     // Show how data is saved
-    println!("Data: {}, {}, {}, {}, {}, {}", &groups[1], &groups[2], response2, enroll_cap, tot_enroll, sem_code);
+    println!("Data: {}, {}, {}, {}, {}, {}, {}", &groups[1], &groups[2], response2, enroll_cap, tot_enroll, sem_code, year);
 }
